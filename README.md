@@ -26,6 +26,25 @@ Showcase, share, preview, and download files inside *your* OneDrive with onedriv
 
 🚀 Quick start: [Getting started](https://ovi.swo.moe/docs/getting-started).
 
+### Local development
+
+Use Node.js 22 or newer and pnpm 10.34.6 (pinned in `package.json`).
+
+```sh
+pnpm install --frozen-lockfile
+pnpm lint
+pnpm test
+pnpm build
+pnpm start
+```
+
+The production build uses Webpack to preserve the existing Pages Router configuration.
+Run `pnpm extract` to update translations with i18next-cli. OneDrive authentication
+and Redis settings are still required to access files; they are not required to build.
+EPUB dependencies use the maintained XML parser, and redundant localforage types
+are removed because localforage provides its own types. ESLint's compatibility layer
+supports plugins that still declare ESLint 9 peer versions.
+
 ## Discussion
 
 Please go to our [discussion forum](https://github.com/spencerwooo/onedrive-vercel-index/discussions) for general questions and FAQs, **issues are for bug reports and bug reports only.** Feature requests may or may not be ignored, as [I (@spencerwooo)](https://spencerwoo.com) am the only one maintaining the project, so **I only prioritise features that I use.**

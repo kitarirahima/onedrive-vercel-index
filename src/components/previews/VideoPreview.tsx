@@ -2,11 +2,12 @@ import type { OdFileObject } from '../../types'
 
 import { FC, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import { useTranslation } from 'next-i18next'
 
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import Plyr from 'plyr-react'
+import type { PlyrOptions, PlyrSource } from 'plyr-react'
 import { useAsync } from 'react-async-hook'
 import { useClipboard } from 'use-clipboard-copy'
 
@@ -21,6 +22,9 @@ import Loading from '../Loading'
 import CustomEmbedLinkMenu from '../CustomEmbedLinkMenu'
 
 import 'plyr-react/plyr.css'
+
+// Plyr accesses document when imported, so load it only in the browser.
+const Plyr = dynamic(() => import('plyr-react'), { ssr: false })
 
 const VideoPlayer: FC<{
   videoName: string
@@ -63,7 +67,7 @@ const VideoPlayer: FC<{
     poster: thumbnail,
     tracks: [{ kind: 'captions', label: videoName, src: '', default: true }],
   }
-  const plyrOptions: Plyr.Options = {
+  const plyrOptions: PlyrOptions = {
     ratio: `${width ?? 16}:${height ?? 9}`,
     fullscreen: { iosNative: true },
   }
@@ -71,7 +75,7 @@ const VideoPlayer: FC<{
     // If the video is not in flv format, we can use the native plyr and add sources directly with the video URL
     plyrSource['sources'] = [{ src: videoUrl }]
   }
-  return <Plyr id="plyr" source={plyrSource as Plyr.SourceInfo} options={plyrOptions} />
+  return <Plyr id="plyr" source={plyrSource as PlyrSource} options={plyrOptions} />
 }
 
 const VideoPreview: FC<{ file: OdFileObject }> = ({ file }) => {

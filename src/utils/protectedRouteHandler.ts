@@ -1,4 +1,4 @@
-import sha256 from 'crypto-js/sha256'
+import { SHA256 as sha256 } from 'crypto-es'
 import siteConfig from '../../config/site.config'
 
 // Hash password token with SHA256
